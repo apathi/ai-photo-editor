@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  ai-photo-editor:
+    build: .
+    container_name: ai-photo-editor
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - DEBUG=False
+      - IMAGE_SIZE=512
+      - ENABLE_CPU_OFFLOAD=True
+    volumes:
+      # Mount examples directory for easy access to sample images
+      - ./examples:/app/examples
+      # Cache models to avoid re-downloading
+      - model-cache:/root/.cache
+    restart: unless-stopped
+    # Uncomment for GPU support (requires nvidia-docker)
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+
+volumes:
+  model-cache:
+    driver: local

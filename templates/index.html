@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Photo Editor - Advanced Inpainting</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% if screenshot_mode %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/screenshot.css') }}">
+    {% endif %}
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>AI Photo Editor</h1>
+            <p class="subtitle">Advanced Background Replacement with Deep Learning</p>
+            <div class="tech-stack">
+                <span class="badge">SAM</span>
+                <span class="badge">SDXL</span>
+                <span class="badge">PyTorch</span>
+                <span class="badge">Computer Vision</span>
+            </div>
+        </header>
+
+        <!-- Instructions -->
+        <section class="instructions">
+            <h2>How to Use</h2>
+            <ol>
+                <li><strong>Upload</strong> an image (JPG, PNG)</li>
+                <li><strong>Click</strong> on the foreground object to select points</li>
+                <li><strong>Generate Mask</strong> to preview the segmentation</li>
+                <li><strong>Enter Prompt</strong> describing your desired background</li>
+                <li><strong>Inpaint</strong> to generate the new image</li>
+            </ol>
+        </section>
+
+        <!-- Main Workspace -->
+        <section class="workspace">
+            <!-- Image Upload -->
+            <div class="upload-section">
+                <label for="imageUpload" class="upload-label">
+                    <span>Choose Image</span>
+                    <input type="file" id="imageUpload" accept="image/*" hidden>
+                </label>
+                <button id="clearPoints" class="btn btn-secondary" disabled>Clear Points</button>
+            </div>
+
+            <!-- Image Display Panels -->
+            <div class="panels">
+                <!-- Original Image Panel -->
+                <div class="panel">
+                    <h3>Original Image</h3>
+                    <div class="canvas-container">
+                        <canvas id="originalCanvas"></canvas>
+                        <div id="pointsOverlay"></div>
+                    </div>
+                    <div class="info-text" id="pointsInfo">Upload an image to begin</div>
+                </div>
+
+                <!-- Mask Preview Panel -->
+                <div class="panel">
+                    <h3>Segmentation Mask</h3>
+                    <div class="canvas-container">
+                        <canvas id="maskCanvas"></canvas>
+                    </div>
+                    <div class="info-text" id="maskInfo">Click points on original image</div>
+                </div>
+
+                <!-- Result Panel -->
+                <div class="panel">
+                    <h3>Inpainted Result</h3>
+                    <div class="canvas-container">
+                        <canvas id="resultCanvas"></canvas>
+                    </div>
+                    <div class="info-text" id="resultInfo">Generate mask and enter prompt</div>
+                </div>
+            </div>
+
+            <!-- Generate Mask Button -->
+            <div class="action-section">
+                <button id="generateMask" class="btn btn-primary" disabled>
+                    Generate Mask
+                </button>
+            </div>
+
+            <!-- Inpainting Controls -->
+            <div class="controls">
+                <h3>Inpainting Settings</h3>
+
+                <div class="control-group">
+                    <label for="prompt">Prompt *</label>
+                    <textarea
+                        id="prompt"
+                        placeholder="Describe the new background... (e.g., 'sunset beach with palm trees')"
+                        rows="2"
+                    ></textarea>
+                </div>
+
+                <div class="control-group">
+                    <label for="negativePrompt">Negative Prompt</label>
+                    <textarea
+                        id="negativePrompt"
+                        placeholder="Things to avoid... (e.g., 'people, crowds, artifacts')"
+                        rows="2"
+                    ></textarea>
+                </div>
+
+                <div class="control-row">
+                    <div class="control-group">
+                        <label for="guidanceScale">
+                            Guidance Scale: <span id="guidanceValue">7.0</span>
+                        </label>
+                        <input
+                            type="range"
+                            id="guidanceScale"
+                            min="1"
+                            max="15"
+                            step="0.5"
+                            value="7.0"
+                        >
+                    </div>
+
+                    <div class="control-group">
+                        <label for="numSteps">
+                            Inference Steps: <span id="stepsValue">50</span>
+                        </label>
+                        <input
+                            type="range"
+                            id="numSteps"
+                            min="20"
+                            max="100"
+                            step="5"
+                            value="50"
+                        >
+                    </div>
+
+                    <div class="control-group">
+                        <label for="seed">Seed (optional)</label>
+                        <input
+                            type="number"
+                            id="seed"
+                            placeholder="Random"
+                            min="0"
+                        >
+                    </div>
+                </div>
+
+                <button id="inpaint" class="btn btn-primary" disabled>
+                    Generate Inpainted Image
+                </button>
+            </div>
+
+            <!-- Progress Indicator -->
+            <div id="progressBar" class="progress-bar hidden">
+                <div class="progress-fill"></div>
+                <div class="progress-text">Processing...</div>
+            </div>
+
+            <!-- Status Messages -->
+            <div id="statusMessage" class="status-message"></div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>
+                Semantic segmentation with <a href="https://segment-anything.com" target="_blank">Meta SAM</a> |
+                Inpainting with <a href="https://stability.ai" target="_blank">Stable Diffusion XL 1.0</a>
+            </p>
+            <p class="device-info" id="deviceInfo">Loading device info...</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
