@@ -362,20 +362,6 @@ This will evaluate:
 
 Results are saved to `test_results/evaluation_report.txt`.
 
-## 🎯 Use Cases
-
-### Product Photography
-Replace boring backgrounds with professional studio setups or custom environments.
-
-### Creative Editing
-Transform vacation photos with different landscapes and lighting conditions.
-
-### E-commerce
-Standardize product images with consistent white backgrounds or branded scenes.
-
-### Social Media
-Create engaging content with unique, AI-generated backgrounds.
-
 ## 🔧 Configuration
 
 ### Environment Variables
