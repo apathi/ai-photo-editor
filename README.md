@@ -7,7 +7,7 @@
 [![Computer Vision](https://img.shields.io/badge/Computer_Vision-SAM-purple.svg)](https://segment-anything.com)
 [![Generative AI](https://img.shields.io/badge/Generative_AI-SDXL-orange.svg)](https://stability.ai)
 
-A production-ready web application demonstrating advanced AI-powered photo editing capabilities using state-of-the-art deep learning models. This project showcases intelligent background replacement through interactive segmentation and generative inpainting.
+A Web application demonstrating advanced AI-powered photo editing capabilities using state-of-the-art deep learning models. This project showcases intelligent background replacement through interactive segmentation and generative inpainting.
 
 ![AI Photo Editor Demo](https://img.shields.io/badge/Status-Production_Ready-success)
 
